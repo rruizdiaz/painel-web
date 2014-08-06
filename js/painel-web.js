@@ -11,9 +11,9 @@ angular.module('app', [])
 
         $scope.ultima = {
             texto: 'A000',
-            local: 'Guichê',
+            local: 'Ventanilla',
             numeroLocal: 0,
-            mensagem: 'Atendimento',
+            mensagem: 'Atendimiento',
             styleClass: ''
         };
         $scope.senhas = [];
