@@ -20,13 +20,13 @@
                 <li>
                     <a href="#config" data-toggle="modal">
                         <span class="glyphicon glyphicon-cog"></span>&nbsp;
-                        Configuração
+                        Configuración
                     </a>
                 </li>
                 <li>
                     <a href="javascript:void(0)" onclick="SGA.PainelWeb.fullscreen()">
                         <span class="glyphicon glyphicon-fullscreen"></span>&nbsp;
-                        Fullscreen
+                        Pantalla Completa
                     </a>
                 </li>
             </ul>
@@ -39,12 +39,12 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Configuração</h4>
+                        <h4 class="modal-title">Configuración</h4>
                     </div>
                     <div class="modal-body">
                         <ul class="nav nav-tabs">
-                            <li class="active"><a href="#unidade" data-toggle="tab">Serviços</a></li>
-                            <li><a href="#som" data-toggle="tab">Som</a></li>
+                            <li class="active"><a href="#unidade" data-toggle="tab">Servicios</a></li>
+                            <li><a href="#som" data-toggle="tab">Sonido</a></li>
                         </ul>
                         <div class="tab-content">
                             <div id="unidade" class="tab-pane active">
@@ -57,11 +57,11 @@
                                 <div class="form-group">
                                     <label for="unidades">Unidades</label>
                                     <select id="unidades" class="form-control" ng-model="unidade" ng-change="changeUnidade()" ng-options="u.nome for u in unidades">
-                                        <option value="">Selecione</option>
+                                        <option value="">Seleccionar</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label>Serviços</label>
+                                    <label>Servicios</label>
                                     <ul id="servicos">
                                         <li ng-repeat="servico in servicosUnidade">
                                             <label>
@@ -85,25 +85,32 @@
                                         <option value="infobleep.wav">Info bleep</option>
                                         <option value="quito-mariscal-sucre.wav">Quito mariscal sucre</option>
                                     </select>
-                                    <button class="btn btn-default" onclick="SGA.PainelWeb.Alert.test();">Testar</button>
+                                    <button class="btn btn-default" onclick="SGA.PainelWeb.Alert.test();">Probar</button>
                                 </div>
                                 <fieldset>
                                     <legend>Vocalizar</legend>
                                     <div class="checkbox">
                                         <label>
-                                            <input id="vocalizar-status" type="checkbox" value="1"> Ativo
+                                            <input id="vocalizar-status" type="checkbox" value="1"> Activo
                                         </label>
                                     </div>
                                     <div class="checkbox">
                                         <label>
-                                            <input id="vocalizar-zero" type="checkbox" value="1" class="vocalizar"> Zero a esquerda
+                                            <input id="vocalizar-zero" type="checkbox" value="1" class="vocalizar"> Cero a la izquierda
                                         </label>
                                     </div>
                                     <div class="checkbox">
                                         <label>
-                                            <input id="vocalizar-local" type="checkbox" value="1" class="vocalizar"> Local de atendimento
+                                            <input id="vocalizar-local" type="checkbox" value="1" class="vocalizar"> Lugar de Atención
                                         </label>
                                     </div>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input id="habilitar" type="checkbox" value="1"> Habilitar 
+                                        </label>
+                                    </div>
+                                    <label for="aler-file">Tiempo (Segundos)</label>
+                                    <input id="tiempo" class="form-control" type="text">
                                     <div class="form-group">
                                         <label for="idioma">Idioma</label>
                                         <select id="idioma" class="vocalizar form-control">
@@ -114,15 +121,15 @@
                                     </div>
                                 </fieldset>
                                 <div class="form-group">
-                                    <button class="btn btn-default vocalizar" onclick="SGA.PainelWeb.Speech.test();">Testar</button>
-                                    <code>Senha: A001 / Guichê: 1</code>
+                                    <button class="btn btn-default vocalizar" onclick="SGA.PainelWeb.Speech.test();">Probar</button>
+                                    <code>Ticket: A001 / Ventanilla: 1</code>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                        <button id="config-save" type="button" class="btn btn-primary" ng-click="save()">Salvar</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        <button id="config-save" type="button" class="btn btn-primary" ng-click="save()">Guardar</button>
                     </div>
                 </div>
             </div>

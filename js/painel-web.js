@@ -67,9 +67,10 @@ angular.module('app', [])
         $scope.chamar = function() {
             if (SGA.PainelWeb.started && $scope.senhas.length > 0) {
                 var senha = $scope.senhas.shift();
-
-                // som e animacao
-                SGA.PainelWeb.Alert.play();
+                if (SGA.PainelWeb.habilitar)
+                    SGA.PainelWeb.maximizar();
+                // som e animacao               
+                SGA.PainelWeb.Alert.play();            
                 SGA.PainelWeb.Speech.play(senha);
                 SGA.PainelWeb.blink($('.blink'));
                 
@@ -198,6 +199,33 @@ var SGA = SGA || {};
 
 SGA.PainelWeb = {
     
+    maximizar: function() {
+        try {
+            var host = "ws://192.168.16.119:8888/ws";
+            console.log("Host:", host);
+            var s = new WebSocket(host);
+            s.onopen = function (e) { 
+                console.log("Socket opened.");
+                s.send('{"titulo": "'+document.title+'", "tiempo": "'+SGA.PainelWeb.tiempo +'"}');
+                s.close();
+            };
+            s.onclose = function (e) {
+                console.log("Socket closed.");
+            };
+            s.onmessage = function (e) {
+                console.log("Socket message:", e.data);
+                var p = document.createElement("p");
+                p.innerHTML = e.data;
+                output.appendChild(p);
+            };
+                s.onerror = function (e) {
+                console.log("Socket error:", e);
+            };
+            
+            } catch (ex) {
+                console.log("Socket exception:", ex);
+        }
+    },
     blink: function(elem) {
         if (!elem.css('visibility')) {
             elem.css('visibility', 'visible');
@@ -244,7 +272,9 @@ SGA.PainelWeb = {
                     vocalizar: $('#vocalizar-status').prop('checked'),
                     zeros: $('#vocalizar-zero').prop('checked'),
                     local: $('#vocalizar-local').prop('checked'),
-                    lang: $('#idioma').val()
+                    lang: $('#idioma').val(),
+                    habilitar: $('#habilitar').prop('checked'),
+                    tiempo:  $('#tiempo').val()
                 }
             );
         },
@@ -354,6 +384,8 @@ SGA.PainelWeb = {
             SGA.PainelWeb.vocalizarZero = SGA.PainelWeb.Storage.get('vocalizarZero') === '1';
             SGA.PainelWeb.vocalizarLocal = SGA.PainelWeb.Storage.get('vocalizarLocal') === '1';
             SGA.PainelWeb.lang = SGA.PainelWeb.Storage.get('lang') || 'pt';
+            SGA.PainelWeb.habilitar = SGA.PainelWeb.Storage.get('habilitar')==='1';
+            SGA.PainelWeb.tiempo = SGA.PainelWeb.Storage.get('tiempo');
             
             // atualizando interface
             $('#alert-file').val(SGA.PainelWeb.alert);
@@ -362,6 +394,8 @@ SGA.PainelWeb = {
             $('#vocalizar-zero').prop('checked', SGA.PainelWeb.vocalizarZero);
             $('#vocalizar-local').prop('checked', SGA.PainelWeb.vocalizarLocal);
             $('#idioma').val(SGA.PainelWeb.lang);
+            $('#habilitar').prop('checked', SGA.PainelWeb.habilitar);
+            $('#tiempo').val(SGA.PainelWeb.tiempo);
         },
                 
         save: function($scope) {
@@ -371,6 +405,8 @@ SGA.PainelWeb = {
             SGA.PainelWeb.vocalizarZero = $('#vocalizar-zero').prop('checked');
             SGA.PainelWeb.vocalizarLocal = $('#vocalizar-local').prop('checked');
             SGA.PainelWeb.lang = $('#idioma').val();
+            SGA.PainelWeb.habilitar = $('#habilitar').prop('checked'),
+            SGA.PainelWeb.tiempo = $('#tiempo').val()
             // salvando valores
             SGA.PainelWeb.Storage.set('url', $scope.url);
             SGA.PainelWeb.Storage.set('unidade', JSON.stringify($scope.unidade));
@@ -380,6 +416,9 @@ SGA.PainelWeb = {
             SGA.PainelWeb.Storage.set('vocalizarZero', SGA.PainelWeb.vocalizarZero ? '1' : '0');
             SGA.PainelWeb.Storage.set('vocalizarLocal', SGA.PainelWeb.vocalizarLocal ? '1' : '0');
             SGA.PainelWeb.Storage.set('lang', SGA.PainelWeb.lang);
+            SGA.PainelWeb.Storage.set('habilitar', SGA.PainelWeb.habilitar  ? '1' : '0');
+            SGA.PainelWeb.Storage.set('tiempo', SGA.PainelWeb.tiempo);
+            
         }
     },
     
